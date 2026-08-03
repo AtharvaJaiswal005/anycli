@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "anycli"
+version = "0.1.0"
+description = "One async Python interface for driving local agent CLIs."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = [
+    "agent",
+    "agent-cli",
+    "claude-code",
+    "automation",
+    "async",
+    "subprocess",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: AsyncIO",
+    "Typing :: Typed",
+]
+dependencies = [
+    # The adapter uses SDK symbols (RateLimitEvent, StreamEvent,
+    # ResultMessage.api_error_status) introduced in recent 0.2.x releases;
+    # the SDK is pre-1.0 and breaks across minor versions, so pin both ends.
+    "claude-agent-sdk>=0.2.128,<0.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/AtharvaJaiswal005/anycli"
+Repository = "https://github.com/AtharvaJaiswal005/anycli"
+Issues = "https://github.com/AtharvaJaiswal005/anycli/issues"
+Changelog = "https://github.com/AtharvaJaiswal005/anycli/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "pyright",
+    # Only for type-checking examples/fastapi_app; not a library dependency.
+    "fastapi",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["anycli"]
+
+[tool.pytest.ini_options]
+addopts = "-m 'not integration'"
+asyncio_mode = "auto"
+markers = [
+    "integration: tests that launch a real agent CLI with real auth (deselected by default)",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

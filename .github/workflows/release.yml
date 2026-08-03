@@ -1,0 +1,52 @@
+# Publishes anycli to PyPI when a GitHub release is published.
+#
+# One-time setup before the first release:
+#   1. On PyPI: Account -> Publishing -> "Add a pending publisher"
+#      (project: anycli, owner: AtharvaJaiswal005, repo: anycli,
+#       workflow: release.yml, environment: pypi).
+#   2. In this repo's settings: create the "pypi" environment
+#      (optionally with required reviewers as a manual release gate).
+# No API tokens or secrets are used: publishing runs via PyPI
+# trusted publishing (OIDC).
+
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+      - name: Check release tag matches project version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version="$(uv version --short)"
+          if [ "$tag" != "$version" ]; then
+            echo "Release tag v$tag does not match pyproject.toml version $version" >&2
+            exit 1
+          fi
+      - name: Build sdist and wheel
+        run: uv build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

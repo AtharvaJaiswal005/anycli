@@ -1,0 +1,58 @@
+name: Feature request
+description: Propose new functionality or an improvement to anycli.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        anycli keeps a deliberately small public surface and a strict
+        middleware/adapter split, so proposals are easiest to evaluate when
+        they say where the change belongs and why.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that anycli currently makes hard or impossible?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you would like to see, ideally with a sketch of the API you would want to call.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you tried, or other designs and why they fall short.
+    validations:
+      required: false
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which layer does this touch?
+      description: >-
+        Logic that would be identical for a second agent CLI belongs in the
+        middleware; logic specific to one agent CLI belongs in its adapter.
+      options:
+        - Public API (Bridge / types / errors)
+        - Middleware (concurrency, streaming, retries)
+        - An adapter (agent-CLI-specific)
+        - Tooling / docs / other
+        - Not sure
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: >-
+            This proposal does not centralize auth: no design that stores,
+            transports, or proxies a user's credentials off their machine, and
+            no one-subscription-serving-many-users pattern.
+          required: true
+        - label: I have searched existing issues for a duplicate.
+          required: true

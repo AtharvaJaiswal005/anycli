@@ -1,0 +1,80 @@
+name: Bug report
+description: Something in anycli is broken or behaves contrary to its documentation.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        Before submitting, please strip any credentials or tokens from logs and
+        tracebacks (API keys, OAuth tokens, anything from your agent CLI's
+        configuration directory).
+
+        For suspected security issues, do **not** open a public issue — use the
+        repository's Security tab to report privately.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect to happen instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: >-
+        The smallest script or steps that reproduce the problem. If it only
+        reproduces against a real agent CLI run (not the unit-test FakeAdapter
+        path), say so.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Output / traceback
+      description: Full error output, with any credentials removed.
+      render: text
+    validations:
+      required: false
+  - type: input
+    id: anycli-version
+    attributes:
+      label: anycli version
+      description: "`python -c \"import anycli; print(anycli.__version__)\"` (include the git commit if installed from git)"
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      placeholder: "3.12.4"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "Windows 11 / Ubuntu 24.04 / macOS 15"
+    validations:
+      required: true
+  - type: input
+    id: agent-cli
+    attributes:
+      label: Agent CLI and version
+      description: Which agent CLI the adapter was driving, and its version (e.g. Claude Code via claude-agent-sdk, and the SDK version from `uv pip show claude-agent-sdk` or `pip show claude-agent-sdk`).
+      placeholder: "Claude Code, claude-agent-sdk x.y.z"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I have removed all credentials and tokens from this report.
+          required: true
+        - label: I have searched existing issues for a duplicate.
+          required: true
