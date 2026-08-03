@@ -18,7 +18,7 @@ from typing import Any, Literal, overload
 
 from anycli.adapters.base import BaseAgentAdapter
 from anycli.doctor import check_env
-from anycli.errors import AnycliError, PlanLimitReached, TransientAdapterError
+from anycli.errors import AdapterError, AnycliError, PlanLimitReached, TransientAdapterError
 from anycli.middleware.concurrency import (
     DEFAULT_MAX_CONCURRENCY,
     DEFAULT_MAX_TURN_SECONDS,
@@ -36,12 +36,16 @@ def _is_transient(error: AnycliError) -> bool:
     """True only for failures that are safe to retry.
 
     :class:`PlanLimitReached` is a hard rejection and is never transient.
+    As documented on :class:`TransientAdapterError`, an
+    :class:`AdapterError` whose message carries a 429/529 status signal is
+    treated as transient too — but only adapter faults; auth and
+    plan-limit errors never fall through to the text match.
     """
-    if isinstance(error, PlanLimitReached):
-        return False
     if isinstance(error, TransientAdapterError):
         return True
-    return bool(_TRANSIENT_STATUS_PATTERN.search(str(error)))
+    if isinstance(error, AdapterError):
+        return bool(_TRANSIENT_STATUS_PATTERN.search(str(error)))
+    return False
 
 
 def _backoff_seconds(attempt: int) -> float:
