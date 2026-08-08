@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="310" height="96" viewBox="0 0 310 96" role="img" aria-label="anycli">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#3B4CCA"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(0,6) scale(0.1640625)">
+    <rect width="512" height="512" rx="118" fill="url(#tile)"/>
+    <g fill="none" stroke="#FFFFFF" stroke-width="34" stroke-linecap="round">
+      <path d="M132,256 H232"/>
+      <path d="M232,256 C296,256 304,168 372,168"/>
+      <path d="M232,256 H372"/>
+      <path d="M232,256 C296,256 304,344 372,344"/>
+    </g>
+    <circle cx="130" cy="256" r="40" fill="#FFFFFF"/>
+    <circle cx="384" cy="168" r="32" fill="#FFFFFF"/>
+    <circle cx="388" cy="256" r="32" fill="#FFFFFF"/>
+    <circle cx="384" cy="344" r="32" fill="#FFFFFF"/>
+  </g>
+  <text x="104" y="69" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="56" font-weight="700" fill="#1F2437">anycli</text>
+</svg>

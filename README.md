@@ -1,5 +1,8 @@
 <h1 align="center">
-  <img src="docs/logo.svg" alt="" width="42">&nbsp;anycli
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg">
+    <img src="docs/wordmark-light.svg" alt="anycli" width="235">
+  </picture>
 </h1>
 
 <p align="center"><b>Drive local agent CLIs from async Python, on the subscription you already pay for.</b></p>
