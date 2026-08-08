@@ -17,7 +17,7 @@ anycli warns about this at startup; take the warning seriously.
 | --- | --- |
 | [`basic.py`](basic.py) | One-shot `Bridge.run()`; every field of the final `Result`, including the `session_id` / `cwd` pair, token usage, and cost. |
 | [`streaming.py`](streaming.py) | `stream=True`: rendering `TextDelta`, `ToolUse`, and `ToolResult` chunks distinctly as they arrive, and handling `PlanLimitReached`. |
-| [`concurrent.py`](concurrent.py) | Several prompts through one `Bridge`; the concurrency semaphore caps live subprocesses while `health()` reports active/queued runs. |
+| [`concurrent_runs.py`](concurrent_runs.py) | Several prompts through one `Bridge`; the concurrency semaphore caps live subprocesses while `health()` reports active/queued runs. |
 | [`fastapi_app/`](fastapi_app/) | A minimal FastAPI service exposing `POST /run` and `POST /stream` (SSE), mapping `PlanLimitReached` to HTTP 429 with `resets_at`. |
 
 ## How to run
@@ -28,7 +28,7 @@ From the repository root:
 uv sync
 uv run python examples/basic.py
 uv run python examples/streaming.py
-uv run python examples/concurrent.py
+uv run python examples/concurrent_runs.py
 ```
 
 The scripts run against the current directory by default; pass a path as

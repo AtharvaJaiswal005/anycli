@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import get_args
 
 import pytest
@@ -45,14 +46,15 @@ async def test_run_returns_typed_result_with_aggregated_text() -> None:
     assert isinstance(result, Result)
     assert result.text == "hello"  # aggregated from text deltas
     assert result.session_id == "sess-1"
-    assert result.cwd == "/tmp/fake-cwd"  # the pair travels with the session id
+    # The pair travels with the session id, resolved to an absolute path.
+    assert result.cwd == str(Path("/tmp/fake-cwd").resolve())
     assert result.is_error is False
     assert result.num_turns == 1
     assert result.usage == Usage(**DEFAULT_USAGE)
     assert result.total_cost_usd == 0.001
     assert adapter.attempts == 1
     assert adapter.calls[0]["prompt"] == "hi"
-    assert adapter.calls[0]["cwd"] == "/tmp/fake-cwd"
+    assert adapter.calls[0]["cwd"] == str(Path("/tmp/fake-cwd").resolve())
 
 
 async def test_run_passes_options_through_to_adapter() -> None:
@@ -69,7 +71,7 @@ async def test_run_passes_options_through_to_adapter() -> None:
     )
 
     call = adapter.calls[0]
-    assert call["cwd"] == "/somewhere/else"
+    assert call["cwd"] == str(Path("/somewhere/else").resolve())
     assert call["allowed_tools"] == ["Read"]
     assert call["permission_mode"] == "plan"
     assert call["max_turns"] == 2
@@ -80,6 +82,22 @@ async def test_run_requires_cwd_when_no_default() -> None:
     bridge = Bridge(FakeAdapter(), warn_on_auth_conflict=False)
     with pytest.raises(ValueError, match="cwd"):
         await bridge.run("hi")
+
+
+async def test_run_resolves_cwd_to_absolute_path() -> None:
+    """A relative cwd like "." must never reach the adapter or the Result.
+
+    Agent CLIs key on-disk session state by absolute working directory;
+    (session_id, cwd) is only resumable if the stored cwd is absolute.
+    """
+    adapter = FakeAdapter()
+    bridge = Bridge(adapter, warn_on_auth_conflict=False)
+
+    result = await bridge.run("hi", cwd=".")
+
+    expected = str(Path.cwd())
+    assert adapter.calls[0]["cwd"] == expected
+    assert result.cwd == expected
 
 
 async def test_stream_yields_only_typed_chunks() -> None:

@@ -14,6 +14,7 @@ import random
 import re
 import warnings
 from collections.abc import AsyncGenerator, AsyncIterator
+from pathlib import Path
 from typing import Any, Literal, overload
 
 from anycli.adapters.base import BaseAgentAdapter
@@ -157,9 +158,14 @@ class Bridge:
         the bridge has no ``default_cwd``. Run failures raise the typed
         hierarchy from :mod:`anycli.errors`.
         """
-        resolved_cwd = cwd or self._default_cwd
-        if resolved_cwd is None:
+        chosen_cwd = cwd or self._default_cwd
+        if chosen_cwd is None:
             raise ValueError("cwd is required: pass cwd= or set default_cwd on the Bridge")
+        # Agent CLIs key their on-disk session state by absolute working
+        # directory, and (session_id, cwd) must be persisted as an exact
+        # pair to resume later. A relative path like "." would silently
+        # break that pairing across processes.
+        resolved_cwd = str(Path(chosen_cwd).expanduser().resolve())
 
         if stream:
             return self._run_stream(

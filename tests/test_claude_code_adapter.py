@@ -9,6 +9,7 @@ deselected integration test.
 from __future__ import annotations
 
 from collections.abc import AsyncIterator, Callable, Sequence
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -121,7 +122,7 @@ async def test_buffered_run_produces_contract_result(monkeypatch: pytest.MonkeyP
     assert isinstance(result, Result)
     assert result.text == "pong"
     assert result.session_id == "sdk-sess"
-    assert result.cwd == "/tmp/fake-cwd"
+    assert result.cwd == str(Path("/tmp/fake-cwd").resolve())
     assert result.is_error is False
     assert result.num_turns == 1
     assert result.total_cost_usd == 0.01
