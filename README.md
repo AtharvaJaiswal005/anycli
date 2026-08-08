@@ -1,14 +1,26 @@
-# anycli
+<p align="center">
+  <img src="docs/logo.svg" alt="anycli logo" width="84">
+</p>
 
-[![CI](https://github.com/AtharvaJaiswal005/anycli/actions/workflows/ci.yml/badge.svg)](https://github.com/AtharvaJaiswal005/anycli/actions/workflows/ci.yml)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://github.com/AtharvaJaiswal005/anycli/blob/main/pyproject.toml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+<h1 align="center">anycli</h1>
+
+<p align="center"><b>Drive local agent CLIs from async Python, on the subscription you already pay for.</b></p>
+
+<p align="center">One <code>run()</code> call from your scripts, backends, or CI. Typed streaming out. Flat-rate tokens, not metered API billing.</p>
+
+<p align="center">
+  <a href="https://github.com/AtharvaJaiswal005/anycli/actions/workflows/ci.yml"><img src="https://github.com/AtharvaJaiswal005/anycli/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/AtharvaJaiswal005/anycli/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python 3.10+"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
+</p>
 
 <p align="center">
   <img src="docs/hero.svg" alt="Your Python app calls anycli's async run() once; anycli drives local agent CLI backends. Claude Code is supported today; Gemini CLI and Codex CLI adapters are on the roadmap." width="920">
 </p>
 
-One async Python interface for driving local agent CLIs. anycli wraps an agent CLI already installed on your machine (Claude Code first) behind a single typed surface: `Bridge.run()` today, `session()` / `resume()` next. Underneath sits CLI-agnostic middleware built to survive production: bounded subprocesses, hard turn lifetimes, typed streaming chunks, typed errors, and retry only where retry is safe.
+anycli wraps an agent CLI already installed on your machine (Claude Code first) behind a single typed surface: `Bridge.run()` today, `session()` / `resume()` next. Underneath sits CLI-agnostic middleware built to survive production: bounded subprocesses, hard turn lifetimes, typed streaming chunks, typed errors, and retry only where retry is safe.
+
+Where it fits: a code-review bot on your repos, a "fix this ticket" endpoint in an internal tool, a CI step that triages failures, a batch job sweeping a backlog — anything that wants a coding agent behind an API instead of a terminal.
 
 ## Why anycli
 
