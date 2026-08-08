@@ -8,7 +8,7 @@ at `max_turns=1` where possible; keep them that way.
 Before running anything, make sure the Claude Code agent CLI is
 authenticated on this machine (log in with the CLI itself). anycli never
 manages credentials. If `ANTHROPIC_API_KEY` is set in your environment it
-silently overrides subscription auth and bills per token at API rates —
+silently overrides subscription auth and bills per token at API rates.
 anycli warns about this at startup; take the warning seriously.
 
 ## Index
@@ -38,7 +38,7 @@ the first argument to use a different working directory:
 uv run python examples/basic.py /path/to/some/project
 ```
 
-The FastAPI example has its own [README](fastapi_app/README.md) — it
+The FastAPI example has its own [README](fastapi_app/README.md); it
 needs two extra packages that are intentionally not dependencies of
 anycli.
 
@@ -46,5 +46,5 @@ anycli.
 
 Throughput is capped by your own plan, and anycli cannot raise that
 ceiling. When the plan limit is hit, runs fail with a typed
-`PlanLimitReached` carrying the reset time — the examples show how to
+`PlanLimitReached` carrying the reset time; the examples show how to
 surface it instead of retrying into a wall.

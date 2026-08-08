@@ -10,7 +10,7 @@ A minimal HTTP service over one shared anycli `Bridge`:
   `queued`).
 
 On `/run`, `PlanLimitReached` becomes HTTP 429 with `resets_at` in the
-body — the plan wall surfaces as an explicit, typed rejection instead
+body: the plan wall surfaces as an explicit, typed rejection instead
 of a mystery 500. On `/stream` the HTTP status is already sent when a
 run fails, so errors arrive as a terminal SSE `error` event.
 
@@ -19,7 +19,7 @@ run fails, so errors arrive as a terminal SSE `error` event.
 - Every request drives a real agent CLI on this machine, on the
   credentials of whoever is logged in here, and spends tokens from that
   plan. This example must serve **one user: yourself**. Exposing one
-  subscription to many users is prohibited by the provider's terms —
+  subscription to many users is prohibited by the provider's terms;
   do not deploy this pattern multi-tenant.
 - Throughput is capped by the plan, not by the service. The bridge
   queues past `max_concurrency` and rejects with 429 at the plan wall;
@@ -58,5 +58,5 @@ curl http://127.0.0.1:8000/health
 ```
 
 Keep prompts small: requests default to `max_turns=1`. Prompts that
-need a tool round (like the `/stream` one above) must raise `max_turns`
-— one turn is not enough for tool use plus the final reply.
+need a tool round (like the `/stream` one above) must raise `max_turns`;
+one turn is not enough for tool use plus the final reply.

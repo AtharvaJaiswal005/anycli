@@ -4,31 +4,31 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://github.com/AtharvaJaiswal005/anycli/blob/main/pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-One async Python interface for driving local agent CLIs. anycli wraps an agent CLI already installed on your machine — Claude Code first — behind a single typed surface: `Bridge.run()` today, `session()` / `resume()` next. Underneath sits CLI-agnostic middleware built to survive production: bounded subprocesses, hard turn lifetimes, typed streaming chunks, typed errors, and retry only where retry is safe.
+One async Python interface for driving local agent CLIs. anycli wraps an agent CLI already installed on your machine (Claude Code first) behind a single typed surface: `Bridge.run()` today, `session()` / `resume()` next. Underneath sits CLI-agnostic middleware built to survive production: bounded subprocesses, hard turn lifetimes, typed streaming chunks, typed errors, and retry only where retry is safe.
 
 ## Why anycli
 
-**Flat-rate tokens, not metered tokens.** Agent CLIs like Claude Code run on the subscription you already pay for. anycli lets you automate them from Python — batch jobs, web backends, pipelines — without switching to per-token API billing. Agentic work is token-hungry; on a subscription, the marginal cost of a run is zero until you hit your plan window. The trade-off is real and stated below: throughput is capped by your plan.
+Agent CLIs like Claude Code run on a subscription you already pay for. anycli lets you automate them from Python (batch jobs, web backends, pipelines) without switching to per-token API billing. Agentic work is token-hungry. On a subscription, the marginal cost of a run is zero until you hit your plan window; the flip side is that throughput is capped by your plan, and the [Honest limits](#honest-limits) section spells that out.
 
-**It guards the expensive footgun.** Claude Code's credential precedence puts `ANTHROPIC_API_KEY` above subscription auth. A stale key in a shell profile or container environment silently switches every run to per-token API billing — subscribers have burned four figures in days this way. `Bridge` checks for this at construction and warns loudly before a single run happens; `check_env()` gives you the same findings programmatically.
+It also guards the expensive footgun. Claude Code's credential precedence puts `ANTHROPIC_API_KEY` above subscription auth, so a stale key in a shell profile or container environment silently switches every run to per-token billing at API rates. Subscribers have burned four figures in days this way. `Bridge` checks for the key at construction and warns before a single run happens; `check_env()` gives you the same findings programmatically.
 
-**Your code stays local.** The agent CLI runs on your machine, against your files, under your own credentials. anycli adds no network hop: prompts go into a local subprocess and typed output comes back out. One fewer compliance surface than designs that ship your repository to a hosted API.
+Your code stays local. The agent CLI runs on your machine, against your files, under your own credentials. anycli adds no network hop: prompts go into a local subprocess and typed output comes back out. That is one fewer compliance surface than designs that ship your repository to a hosted API.
 
-**Production middleware, not a subprocess wrapper.** A global semaphore bounds live subprocesses (one run = one subprocess). Every run is watched by a hard max-lifetime deadline that tears down hung or abandoned turns. Subprocesses are reaped on completion, close, cancellation, and abandonment. Transient failures (throttling, overload) are retried with exponential backoff and jitter; a hard plan-limit rejection is never retried — it surfaces as a typed `PlanLimitReached` carrying the reset time, so your app can say "resets at 15:00" instead of returning a 500. `bridge.health()` reports active runs, the cap, and queued waiters.
+The middleware is the part you would otherwise write yourself, badly, under deadline. A global semaphore bounds live subprocesses (one run = one subprocess). A hard max-lifetime deadline tears down hung or abandoned turns, and subprocesses are reaped on completion, close, cancellation, and abandonment. Transient failures (throttling, overload) are retried with exponential backoff and jitter. A hard plan-limit rejection is never retried: it surfaces as a typed `PlanLimitReached` carrying the reset time, so your app can say "resets at 15:00" instead of returning a 500. `bridge.health()` reports active runs, the cap, and queued waiters.
 
-**One surface, swappable backends.** `Bridge.run()` is the same call regardless of which agent CLI sits underneath. Claude Code is supported today; a second adapter is planned for v0.4. Backend-specific logic lives in thin adapters; everything else is shared, so moving to another agent CLI is a config change, not a rewrite.
+The surface itself is backend-agnostic. `Bridge.run()` is the same call regardless of which agent CLI sits underneath; backend-specific logic lives in thin adapters. Claude Code is supported today, a second adapter is planned for v0.4, and moving between them is a config change rather than a rewrite.
 
 ## Honest limits
 
 Read this before building on anycli:
 
-- **Per-user auth, always.** Every user runs their own agent CLI on their own credentials. One subscription serving many users — or a user's subscription token running on your server on their behalf — violates the provider's terms of service. anycli never centralizes, stores, or transports credentials, and no design built on it should. This is not supported and never will be.
-- **Throughput is capped by each user's plan.** anycli manages that edge gracefully — bounded concurrency, typed `PlanLimitReached` with the reset time — but it cannot raise the ceiling.
+- **Per-user auth, always:** every user runs their own agent CLI on their own credentials. One subscription serving many users, or a user's subscription token running on your server on their behalf, violates the provider's terms of service. anycli never centralizes, stores, or transports credentials, and no design built on it should. This is not supported and never will be.
+- **Throughput is capped by each user's plan.** anycli manages that edge (bounded concurrency, a typed `PlanLimitReached` with the reset time) but cannot raise the ceiling.
 - **Bring your own auth.** anycli does not log you in; you authenticate the agent CLI itself on each machine that runs it (see [Auth](#auth)).
 
 ## Install
 
-anycli is not on PyPI yet — `pip install anycli` will work when the v0.1 release is published. Until then, install from GitHub:
+anycli is not on PyPI yet; `pip install anycli` will work once the v0.1 release is published. Until then, install from GitHub:
 
 ```bash
 pip install git+https://github.com/AtharvaJaiswal005/anycli.git
@@ -65,7 +65,7 @@ asyncio.run(main())
 
 ## Streaming
 
-With `stream=True`, `run()` returns an async iterator of typed chunks — `TextDelta`, `ToolUse`, `ToolResult`, ending with a `Result`. Never raw strings.
+With `stream=True`, `run()` returns an async iterator of typed chunks: `TextDelta`, `ToolUse`, `ToolResult`, ending with a `Result`. Never raw strings.
 
 ```python
 from anycli import Result, TextDelta, ToolUse
@@ -88,7 +88,7 @@ Iterate the stream to completion or close it promptly. An abandoned iterator hol
 
 ## Handling plan limits
 
-All public errors come from `anycli.errors`. Transient failures (throttling, overload — `TransientAdapterError`, or 429/529 signals) are retried internally with exponential backoff and jitter. A hard plan-limit rejection is never retried: it is raised as `PlanLimitReached`, with `resets_at` set when the agent CLI reported a reset time.
+All public errors come from `anycli.errors`. Transient failures (`TransientAdapterError`, or 429/529 signals) are retried internally with exponential backoff and jitter. A hard plan-limit rejection is never retried: it is raised as `PlanLimitReached`, with `resets_at` set when the agent CLI reported a reset time.
 
 ```python
 from anycli import AuthError, PlanLimitReached
@@ -123,7 +123,7 @@ The full hierarchy: `AnycliError` (base) → `AdapterError` (subprocess or proto
 └────────────────────────────────────────────────────────────┘
 ```
 
-The dividing rule: logic that would be identical for a second agent CLI lives in the middleware; logic that only makes sense for one lives in its adapter. The middleware never imports an SDK and never touches a subprocess — it talks only to `BaseAgentAdapter`. Adapters know five things about their agent CLI: launch, send a turn, stream raw events, capture a session id, and report auth and rate-limit state in normalized form.
+The dividing rule: logic that would be identical for a second agent CLI lives in the middleware; logic that only makes sense for one lives in its adapter. The middleware never imports an SDK and never touches a subprocess; it talks only to `BaseAgentAdapter`. Adapters know five things about their agent CLI: launch, send a turn, stream raw events, capture a session id, and report auth and rate-limit state in normalized form.
 
 ## Auth
 
@@ -155,7 +155,7 @@ Each user or machine authenticates for itself. Do not ship one person's token to
 
 ## Contributing
 
-Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for setup, test tiers, and style rules. The short version:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, test tiers, and style rules. The short version:
 
 ```bash
 uv sync
@@ -169,4 +169,4 @@ Unit tests run against a fake adapter — deterministic, no subprocesses, no cre
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).

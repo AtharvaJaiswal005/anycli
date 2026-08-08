@@ -31,7 +31,7 @@ uv run pytest
 Unit tests exercise the bridge and middleware against a deterministic
 `FakeAdapter` (`tests/fake_adapter.py`). They launch no subprocesses and
 require no agent CLI and no credentials. All concurrency, retry, streaming,
-and error-mapping logic must be fully testable this way — if your middleware
+and error-mapping logic must be fully testable this way; if your middleware
 change can only be verified against a real agent CLI, restructure it.
 
 ### Integration tests (opt-in, local only)
@@ -59,14 +59,14 @@ uv run pyright
 
 ## Code style
 
-- **Async-first.** The public API is async; there is no sync wrapper in v1.
+- **Async-first:** the public API is async; there is no sync wrapper in v1.
 - **Full type hints** on all code, public and private.
-- **Typed errors only.** Everything anycli raises publicly comes from the
+- **Typed errors only:** everything anycli raises publicly comes from the
   hierarchy in `anycli/errors.py`. Never raise bare `Exception`.
-- **Small public surface.** Only names exported from `anycli/__init__.py` are
+- **Small public surface:** only names exported from `anycli/__init__.py` are
   public; everything else is private and may change without notice. Additions
   to the public surface need discussion in an issue first.
-- **Honest docstrings.** State constraints plainly (plan-capped throughput,
+- **Honest docstrings:** state constraints plainly (plan-capped throughput,
   bring-your-own auth). No marketing language in code or docs.
 
 ## Engineering invariants
@@ -90,9 +90,9 @@ will not be merged, however clean the code.
 5. **Subprocesses are always reaped.** Async context managers and cascading
    generator closure everywhere, plus a hard max-lifetime kill for hung
    turns. A test that asserts "no leaked subprocess" is not optional
-   ceremony — add one for any change to the run pipeline.
+   ceremony; add one for any change to the run pipeline.
 6. **Retry only transient errors** (429 / 529) with exponential backoff and
-   jitter. Never retry a hard plan-limit rejection — raise
+   jitter. Never retry a hard plan-limit rejection; raise
    `PlanLimitReached` carrying the reset time instead.
 7. **Yield typed chunks** (`TextDelta`, `ToolUse`, `ToolResult`, `Result`)
    from every public streaming surface — never raw strings, never
@@ -108,7 +108,7 @@ will not be merged, however clean the code.
 If a piece of logic would be identical for a second agent CLI, it belongs in
 `anycli/middleware/`. If it only makes sense for one agent CLI, it belongs in
 that adapter under `anycli/adapters/`. Middleware never imports an SDK and
-never touches a subprocess — it talks only to `BaseAgentAdapter`. When in
+never touches a subprocess; it talks only to `BaseAgentAdapter`. When in
 doubt, push logic up into middleware and keep the adapter dumb. Do not add
 speculative hooks or config knobs for agent CLIs that are not integrated yet.
 
