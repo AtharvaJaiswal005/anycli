@@ -10,6 +10,7 @@
 <p align="center">One <code>run()</code> call from your scripts, backends, or CI. Typed streaming out. Flat-rate tokens, not metered API billing.</p>
 
 <p align="center">
+  <a href="https://pypi.org/project/anycli/"><img src="https://img.shields.io/pypi/v/anycli" alt="PyPI"></a>
   <a href="https://github.com/AtharvaJaiswal005/anycli/actions/workflows/ci.yml"><img src="https://github.com/AtharvaJaiswal005/anycli/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/AtharvaJaiswal005/anycli/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python 3.10+"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
@@ -45,12 +46,10 @@ Read this before building on anycli:
 
 ## Install
 
-anycli is not on PyPI yet; `pip install anycli` will work once the v0.1 release is published. Until then, install from GitHub:
-
 ```bash
-pip install git+https://github.com/AtharvaJaiswal005/anycli.git
+pip install anycli
 # or with uv
-uv add git+https://github.com/AtharvaJaiswal005/anycli.git
+uv add anycli
 ```
 
 Python 3.10+. The `claude-agent-sdk` dependency bundles the Claude Code CLI transport, but you still need working auth (see [Auth](#auth)).

@@ -8,7 +8,7 @@ Before 1.0.0, minor versions may contain breaking changes.
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-08-03
+## [0.1.0] - 2026-08-08
 
 First release: one-shot runs against a local agent CLI, with the production
 middleware that point wrappers skip.
