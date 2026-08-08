@@ -1,8 +1,6 @@
-<p align="center">
-  <img src="docs/logo.svg" alt="anycli logo" width="84">
-</p>
-
-<h1 align="center">anycli</h1>
+<h1 align="center">
+  <img src="docs/logo.svg" alt="" width="42">&nbsp;anycli
+</h1>
 
 <p align="center"><b>Drive local agent CLIs from async Python, on the subscription you already pay for.</b></p>
 
