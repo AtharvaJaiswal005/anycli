@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Diagram: your Python app calls anycli's async run() once; anycli drives local agent CLI backends. Claude Code is supported today; Gemini CLI and Codex CLI adapters are on the roadmap.">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#132148"/>
+      <stop offset="55%" stop-color="#0D1630"/>
+      <stop offset="100%" stop-color="#080D1D"/>
+    </radialGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#3B4CCA"/>
+    </linearGradient>
+    <pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="#3A4A78" opacity="0.35"/>
+    </pattern>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#67E8F9"/>
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="630" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="630" rx="18" fill="url(#dots)"/>
+
+  <!-- left node: your app -->
+  <g>
+    <rect x="72" y="272" width="228" height="86" rx="18" fill="#141E3C" stroke="#2E3F6E" stroke-width="1.5"/>
+    <rect x="92" y="294" width="42" height="42" rx="10" fill="#1D2A50" stroke="#39518F" stroke-width="1.2"/>
+    <text x="113" y="322" font-family="Consolas, 'Courier New', monospace" font-size="17" fill="#8FB4FF" text-anchor="middle">&lt;/&gt;</text>
+    <text x="150" y="322" font-family="'Segoe UI', Arial, sans-serif" font-size="20" font-weight="600" fill="#DCE6FF">Your Python app</text>
+  </g>
+
+  <!-- arrow in -->
+  <line x1="302" y1="315" x2="436" y2="315" stroke="#67E8F9" stroke-width="3" marker-end="url(#arrow)" filter="url(#softglow)"/>
+  <text x="395" y="345" font-family="Consolas, 'Courier New', monospace" font-size="15" fill="#7DD3FC" text-anchor="middle">await bridge.run()</text>
+
+  <!-- center: anycli core -->
+  <g>
+    <circle cx="560" cy="315" r="118" fill="#4F46E5" opacity="0.12"/>
+    <circle cx="560" cy="315" r="94" fill="#4F46E5" opacity="0.25"/>
+    <circle cx="560" cy="315" r="72" fill="url(#core)" filter="url(#glow)"/>
+    <!-- glyph: one line branches into three -->
+    <g fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round">
+      <path d="M508,315 H542"/>
+      <path d="M542,315 Q560,315 570,301 T598,287"/>
+      <path d="M542,315 H602"/>
+      <path d="M542,315 Q560,315 570,329 T598,343"/>
+    </g>
+    <circle cx="508" cy="315" r="9" fill="#FFFFFF"/>
+    <circle cx="606" cy="287" r="7" fill="#FFFFFF"/>
+    <circle cx="610" cy="315" r="7" fill="#FFFFFF"/>
+    <circle cx="606" cy="343" r="7" fill="#FFFFFF"/>
+    <text x="560" y="486" font-family="'Segoe UI', Arial, sans-serif" font-size="46" font-weight="700" fill="#FFFFFF" text-anchor="middle">anycli</text>
+  </g>
+
+  <!-- branches out -->
+  <g stroke="#67E8F9" stroke-width="2.5" fill="none" filter="url(#softglow)">
+    <path d="M678,315 H738 Q756,315 756,297 V218 Q756,200 774,200 H806" marker-end="url(#arrow)"/>
+    <path d="M678,315 H806" marker-end="url(#arrow)"/>
+    <path d="M678,315 H738 Q756,315 756,333 V412 Q756,430 774,430 H806" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- right column -->
+  <text x="985" y="140" font-family="'Segoe UI', Arial, sans-serif" font-size="19" font-weight="600" fill="#8CA3D8" text-anchor="middle">Agent CLI backends</text>
+
+  <!-- pill: Claude Code (today) -->
+  <g>
+    <rect x="820" y="157" width="330" height="86" rx="20" fill="#12203F" stroke="#38BDF8" stroke-width="1.8"/>
+    <rect x="842" y="179" width="42" height="42" rx="10" fill="#0B1730" stroke="#38BDF8" stroke-width="1.2"/>
+    <text x="863" y="207" font-family="Consolas, 'Courier New', monospace" font-size="16" fill="#7DD3FC" text-anchor="middle">&gt;_</text>
+    <text x="900" y="196" font-family="'Segoe UI', Arial, sans-serif" font-size="21" font-weight="700" fill="#EAF1FF">Claude Code</text>
+    <rect x="900" y="207" width="62" height="24" rx="12" fill="#0F2E1F" stroke="#34D399" stroke-width="1.2"/>
+    <text x="931" y="224" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="600" fill="#6EE7B7" text-anchor="middle">today</text>
+  </g>
+
+  <!-- pill: Gemini CLI (roadmap) -->
+  <g opacity="0.72">
+    <rect x="820" y="272" width="330" height="86" rx="20" fill="#101A34" stroke="#4C5E93" stroke-width="1.6" stroke-dasharray="7 6"/>
+    <rect x="842" y="294" width="42" height="42" rx="10" fill="#0B1730" stroke="#4C5E93" stroke-width="1.2"/>
+    <text x="863" y="322" font-family="Consolas, 'Courier New', monospace" font-size="16" fill="#93A6D6" text-anchor="middle">&gt;_</text>
+    <text x="900" y="311" font-family="'Segoe UI', Arial, sans-serif" font-size="21" font-weight="700" fill="#C4D1F2">Gemini CLI</text>
+    <rect x="900" y="322" width="88" height="24" rx="12" fill="#1A2342" stroke="#6B7FB8" stroke-width="1.2"/>
+    <text x="944" y="339" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="600" fill="#9DB1E4" text-anchor="middle">roadmap</text>
+  </g>
+
+  <!-- pill: Codex CLI (roadmap) -->
+  <g opacity="0.72">
+    <rect x="820" y="387" width="330" height="86" rx="20" fill="#101A34" stroke="#4C5E93" stroke-width="1.6" stroke-dasharray="7 6"/>
+    <rect x="842" y="409" width="42" height="42" rx="10" fill="#0B1730" stroke="#4C5E93" stroke-width="1.2"/>
+    <text x="863" y="437" font-family="Consolas, 'Courier New', monospace" font-size="16" fill="#93A6D6" text-anchor="middle">&gt;_</text>
+    <text x="900" y="426" font-family="'Segoe UI', Arial, sans-serif" font-size="21" font-weight="700" fill="#C4D1F2">Codex CLI</text>
+    <rect x="900" y="437" width="88" height="24" rx="12" fill="#1A2342" stroke="#6B7FB8" stroke-width="1.2"/>
+    <text x="944" y="454" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="600" fill="#9DB1E4" text-anchor="middle">roadmap</text>
+  </g>
+
+  <!-- footer strip -->
+  <text x="600" y="576" font-family="'Segoe UI', Arial, sans-serif" font-size="17" fill="#7E93C4" text-anchor="middle">bounded subprocesses&#160;&#160;·&#160;&#160;typed streaming&#160;&#160;·&#160;&#160;typed errors&#160;&#160;·&#160;&#160;plan-limit aware&#160;&#160;·&#160;&#160;your own auth, flat-rate</text>
+</svg>

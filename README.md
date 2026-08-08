@@ -4,6 +4,10 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://github.com/AtharvaJaiswal005/anycli/blob/main/pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+<p align="center">
+  <img src="docs/hero.svg" alt="Your Python app calls anycli's async run() once; anycli drives local agent CLI backends. Claude Code is supported today; Gemini CLI and Codex CLI adapters are on the roadmap." width="920">
+</p>
+
 One async Python interface for driving local agent CLIs. anycli wraps an agent CLI already installed on your machine (Claude Code first) behind a single typed surface: `Bridge.run()` today, `session()` / `resume()` next. Underneath sits CLI-agnostic middleware built to survive production: bounded subprocesses, hard turn lifetimes, typed streaming chunks, typed errors, and retry only where retry is safe.
 
 ## Why anycli
