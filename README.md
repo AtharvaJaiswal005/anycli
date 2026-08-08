@@ -1,7 +1,7 @@
 <h1 align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg">
-    <img src="docs/wordmark-light.svg" alt="anycli" width="235">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AtharvaJaiswal005/anycli/main/docs/wordmark-dark.svg">
+    <img src="https://raw.githubusercontent.com/AtharvaJaiswal005/anycli/main/docs/wordmark-light.svg" alt="anycli" width="235">
   </picture>
 </h1>
 
@@ -17,12 +17,12 @@
 </p>
 
 <p align="center">
-  <img src="docs/hero.svg" alt="Your Python app calls anycli's async run() once; anycli drives local agent CLI backends. Claude Code is supported today; Gemini CLI and Codex CLI adapters are on the roadmap." width="920">
+  <img src="https://raw.githubusercontent.com/AtharvaJaiswal005/anycli/main/docs/hero.svg" alt="Your Python app calls anycli's async run() once; anycli drives local agent CLI backends. Claude Code is supported today; Gemini CLI and Codex CLI adapters are on the roadmap." width="920">
 </p>
 
 anycli wraps an agent CLI already installed on your machine (Claude Code first) behind a single typed surface: `Bridge.run()` today, `session()` / `resume()` next. Underneath sits CLI-agnostic middleware built to survive production: bounded subprocesses, hard turn lifetimes, typed streaming chunks, typed errors, and retry only where retry is safe.
 
-Where it fits: a code-review bot on your repos, a "fix this ticket" endpoint in an internal tool, a CI step that triages failures, a batch job sweeping a backlog — anything that wants a coding agent behind an API instead of a terminal.
+Where it fits: a code-review bot on your repos, a "fix this ticket" endpoint in an internal tool, a CI step that triages failures, a batch job sweeping a backlog: anything that wants a coding agent behind an API instead of a terminal.
 
 ## Why anycli
 

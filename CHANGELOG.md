@@ -8,6 +8,19 @@ Before 1.0.0, minor versions may contain breaking changes.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-08-08
+
+### Fixed
+
+- README images now use absolute URLs so the logo and architecture
+  diagram render on the PyPI project page, not only on GitHub.
+- Renamed `examples/concurrent.py` to `examples/concurrent_runs.py`; the
+  old name shadowed the standard library `concurrent` package and broke
+  running any example directly.
+- `Bridge.run()` resolves `cwd` to an absolute path before it reaches the
+  adapter or the `Result`, keeping the `(session_id, cwd)` pair resumable
+  when callers pass a relative path.
+
 ## [0.1.0] - 2026-08-08
 
 First release: one-shot runs against a local agent CLI, with the production
@@ -50,5 +63,6 @@ middleware that point wrappers skip.
   by real concurrency tests; a small opt-in integration smoke test
   (`-m integration`) exercises a real Claude Code run locally.
 
-[Unreleased]: https://github.com/AtharvaJaiswal005/anycli/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/AtharvaJaiswal005/anycli/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/AtharvaJaiswal005/anycli/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/AtharvaJaiswal005/anycli/releases/tag/v0.1.0
